@@ -74,7 +74,7 @@ function App() {
 			const card = (
 				<div
 					className="border-2 border-red-400 border-solid m-8 p-4 w-1/5"
-					key={index}
+					key={missionState.title}
 				>
 					<p>{missionState.title}</p>
 					<p>
@@ -95,15 +95,19 @@ function App() {
 			}
 		});
 		// make invisible cards to balance the row size
-		const invisibleCard = <div className="m-8 p-4 w-1/5"></div>;
+		const invisibleCard = (
+			<div key={"invis" + Math.random()} className="m-8 p-4 w-1/5"></div>
+		);
 		while (row.length !== 3) {
 			row.push(invisibleCard);
 		}
 		// push remaining cards
 		threeByXGrid.push(row);
 
-		return threeByXGrid.map((row) => (
-			<div className="flex justify-around">{row}</div>
+		return threeByXGrid.map((row, index) => (
+			<div key={index} className="flex justify-around">
+				{row}
+			</div>
 		));
 	};
 
