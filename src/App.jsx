@@ -21,7 +21,7 @@ function App() {
 			title: "mission 3",
 			description: "this is the 3rd mission",
 			counter: 0,
-			pointLimit: 6,
+			pointLimit: 9,
 		},
 		{
 			title: "mission 4",
@@ -30,7 +30,7 @@ function App() {
 			pointLimit: 6,
 		},
 		{
-			title: "FINAL MISSION",
+			title: "🎉 FINAL MISSION 🎉",
 			description: "this is the 5th and FINAL mission",
 			counter: 0,
 			pointLimit: 80,
@@ -53,19 +53,57 @@ function App() {
 	};
 
 	const renderMissions = () => {
-		return missionStates.map((missionState, index) => (
-			<div className="border-2 border-red-400 border-solid m-8" key={index}>
-				<p>{missionState.title}</p>
-				<p>
-					{missionState.description} The max number of points is{" "}
-					{missionState.pointLimit}
-				</p>
-				<div className="flex justify-around items-center">
-					<button onClick={() => handleCounterChange(index, "-")}>-</button>
-					<p>{missionState.counter}</p>
-					<button onClick={() => handleCounterChange(index, "+")}>+</button>
+		// return missionStates.map((missionState, index) => (
+		// 	<div className="border-2 border-red-400 border-solid m-8 p-4" key={index}>
+		// 		<p>{missionState.title}</p>
+		// 		<p>
+		// 			{missionState.description} The max number of points is{" "}
+		// 			{missionState.pointLimit}
+		// 		</p>
+		// 		<div className="flex justify-around items-center">
+		// 			<button onClick={() => handleCounterChange(index, "-")}>-</button>
+		// 			<p>{missionState.counter}</p>
+		// 			<button onClick={() => handleCounterChange(index, "+")}>+</button>
+		// 		</div>
+		// 	</div>
+		// ));
+
+		let threeByXGrid = [];
+		let row = [];
+		missionStates.forEach((missionState, index) => {
+			const card = (
+				<div
+					className="border-2 border-red-400 border-solid m-8 p-4 w-1/5"
+					key={index}
+				>
+					<p>{missionState.title}</p>
+					<p>
+						{missionState.description} The max number of points is{" "}
+						{missionState.pointLimit}
+					</p>
+					<div className="flex justify-around items-center">
+						<button onClick={() => handleCounterChange(index, "-")}>-</button>
+						<p>{missionState.counter}</p>
+						<button onClick={() => handleCounterChange(index, "+")}>+</button>
+					</div>
 				</div>
-			</div>
+			);
+			row.push(card);
+			if (index % 3 === 2) {
+				threeByXGrid.push(row);
+				row = [];
+			}
+		});
+		// make invisible cards to balance the row size
+		const invisibleCard = <div className="m-8 p-4 w-1/5"></div>;
+		while (row.length !== 3) {
+			row.push(invisibleCard);
+		}
+		// push remaining cards
+		threeByXGrid.push(row);
+
+		return threeByXGrid.map((row) => (
+			<div className="flex justify-around">{row}</div>
 		));
 	};
 
@@ -73,7 +111,7 @@ function App() {
 		<main>
 			<div>
 				Score: {totalPoints}
-				{renderMissions()}
+				<div className="">{renderMissions()}</div>
 			</div>
 		</main>
 	);
